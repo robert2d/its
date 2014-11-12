@@ -77,6 +77,8 @@ module Its
       desc = attribute.to_s
       desc += "(#{args.map{|a| a.nil? ? 'nil' : a.to_s}.join(', ')})" unless args.empty?
 
+      warn_about_its
+
       describe(desc) do
         example do
           self.class.class_eval do
@@ -93,6 +95,15 @@ module Its
           instance_eval(&block)
         end
       end
+    end
+      
+    ##
+    # used only in the CricHQ test environment to encourage the refactoring of old specs
+    def warn_about_its
+      RSpec.deprecate(
+        "Using `its` is derecated from rspec 3. please update this so we can remove the `its` gem",
+        :replacement => "See https://gist.github.com/myronmarston/4503509 for advice on changing to the new syntax"
+      )
     end
 
   end
